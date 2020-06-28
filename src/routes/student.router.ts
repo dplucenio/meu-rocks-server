@@ -1,18 +1,18 @@
 import { Router } from 'express';
-import { getCustomRepository } from "typeorm";
+import { getRepository } from "typeorm";
 import {startOfDay, parseISO} from 'date-fns'
-import UserRepository from '../repositories/UserRepository';
+import User from '../models/User';
 
 let studentRouter = Router();
 
 studentRouter.get('/', async (request, response) => {
-  const userRepository = getCustomRepository(UserRepository);
+  const userRepository = getRepository(User);
   let students = await userRepository.find({});
   return response.json(students);
 });
 
 studentRouter.post('/', async (request, response) => {
-  const userRepository = getCustomRepository(UserRepository);
+  const userRepository = getRepository(User);
   const { firstName, lastName, birthday } = request.body;
   let user = userRepository.create({
     first_name: firstName,
