@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { getRepository } from "typeorm";
-import {startOfDay, parseISO} from 'date-fns'
-import User from '../models/User';
+import { startOfDay, parseISO } from 'date-fns'
+import CreateUserService from '../services/CreateUserService';
+import User from '../models/User';;
 
 let studentRouter = Router();
 
@@ -12,8 +13,12 @@ studentRouter.get('/', async (request, response) => {
 });
 
 studentRouter.post('/', async (request, response) => {
+  const { username, email, password, name, nickname, birthday } = request.body;
   const userRepository = getRepository(User);
-  response.json('student create route');
+  const user = await new CreateUserService(userRepository).execute({
+    username, email, password, name, nickname, birthday
+  });
+  response.json(user);
 })
 
 export default studentRouter;

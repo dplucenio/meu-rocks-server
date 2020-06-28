@@ -12,7 +12,9 @@ export class CreateUser1593259252097 implements MigrationInterface {
             password VARCHAR NOT NULL CHECK(password <> ''),
             name VARCHAR NOT NULL CHECK(name <> ''),
             nickname VARCHAR NOT NULL CHECK(nickname <> ''),
-            birthday DATE NOT NULL
+            birthday DATE NOT NULL,
+            created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+            updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
         );
         INSERT INTO
         users(username, email, password, name, nickname, birthday)
