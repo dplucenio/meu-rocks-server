@@ -6,10 +6,19 @@ class User {
   id: string;
 
   @Column('varchar')
-  first_name: string;
+  username: string;
 
   @Column('varchar')
-  last_name: string;
+  email: string;
+
+  @Column('varchar')
+  password: string;
+
+  @Column('varchar')
+  name: string;
+
+  @Column('varchar')
+  nickname: string;
 
   @Column('date')
   birthday: Date;

@@ -13,14 +13,7 @@ studentRouter.get('/', async (request, response) => {
 
 studentRouter.post('/', async (request, response) => {
   const userRepository = getRepository(User);
-  const { firstName, lastName, birthday } = request.body;
-  let user = userRepository.create({
-    first_name: firstName,
-    last_name: lastName,
-    birthday: startOfDay(parseISO(birthday))
-  });
-  await userRepository.save(user);
-  response.json(user);
+  response.json('student create route');
 })
 
 export default studentRouter;
