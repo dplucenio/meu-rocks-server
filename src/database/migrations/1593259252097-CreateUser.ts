@@ -16,6 +16,13 @@ export class CreateUser1593259252097 implements MigrationInterface {
             created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
             updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
         );
+
+        CREATE TABLE students(
+            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+            enrollment_number BIGINT UNIQUE NOT NULL,
+            user_id UUID UNIQUE NOT NULL REFERENCES users(id)
+        );
+
         INSERT INTO
         users(username, email, password, name, nickname, birthday)
         VALUES('dplucenio', 'dplucenio@gmail.com', '123', 'Daniel Plucenio', 'Daniel', DATE '1985-07-21');
@@ -23,6 +30,9 @@ export class CreateUser1593259252097 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`DROP TABLE users;`)
+        await queryRunner.query(`
+        DROP TABLE students;
+        DROP TABLE users;
+        `)
     }
 }
