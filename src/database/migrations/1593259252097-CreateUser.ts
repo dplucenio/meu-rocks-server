@@ -11,6 +11,19 @@ export class CreateUser1593259252097 implements MigrationInterface {
         await queryRunner.query(`
         CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+        CREATE TABLE subjects(
+            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+            name VARCHAR NOT NULL UNIQUE CHECK(name <> '')
+        );
+        INSERT INTO subjects(name)
+        values ('Biologia'), ('Matemática'), ('Física'), ('Química'),
+        ('Português'), ('Redação'), ('História'), ('Geografia');
+
+        CREATE TABLE classes(
+            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+            name VARCHAR NOT NULL UNIQUE CHECK(name <> '')
+        );
+
         CREATE TABLE users (
             id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
             username VARCHAR NOT NULL UNIQUE CHECK(username <> ''),
@@ -39,6 +52,8 @@ export class CreateUser1593259252097 implements MigrationInterface {
         await queryRunner.query(`
         DROP TABLE students;
         DROP TABLE users;
+        DROP TABLE classes;
+        DROP TABLE subjects;
         `)
     }
 }
