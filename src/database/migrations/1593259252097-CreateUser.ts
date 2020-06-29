@@ -1,10 +1,16 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
+import dotenv from 'dotenv';
+import {hash} from 'bcryptjs';
+dotenv.config();
 
 export class CreateUser1593259252097 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
+        let adminPassword: string = process.env.ADMIN_PASSWORD!;
+        const hashedAdminPassword = await hash(adminPassword, 8);
         await queryRunner.query(`
         CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
         CREATE TABLE users (
             id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
             username VARCHAR NOT NULL UNIQUE CHECK(username <> ''),
@@ -25,7 +31,7 @@ export class CreateUser1593259252097 implements MigrationInterface {
 
         INSERT INTO
         users(username, email, password, name, nickname, birthday)
-        VALUES('dplucenio', 'dplucenio@gmail.com', '123', 'Daniel Plucenio', 'Daniel', DATE '1985-07-21');
+        VALUES('dplucenio', 'dplucenio@gmail.com', '${hashedAdminPassword}', 'Daniel Plucenio', 'Daniel', DATE '1985-07-21');
         `);
     }
 

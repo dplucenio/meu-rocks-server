@@ -1,4 +1,5 @@
 import { Repository } from 'typeorm';
+import { hash } from 'bcryptjs';
 import User from '../models/User';
 
 interface Request {
@@ -26,8 +27,9 @@ class CreateUserService {
     nickname,
     birthday
   }: Request): Promise<User> {
+    const hashedPassword = await hash(password, 8);
     let user = this.repository.create(
-      {username, email, password, name, nickname, birthday});
+      {username, email, password: hashedPassword, name, nickname, birthday});
     await this.repository.save(user);
     return user;
   }
