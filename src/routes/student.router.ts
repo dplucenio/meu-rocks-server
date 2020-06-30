@@ -1,24 +1,69 @@
 import { Router } from 'express';
-import { getRepository } from "typeorm";
-import { startOfDay, parseISO } from 'date-fns'
-import CreateUserService from '../services/CreateUserService';
-import User from '../models/User';;
+import { getRepository } from 'typeorm';
+import User from '../models/User'; import Student from '../models/Student';
+import CreateStudent from '../services/CreateStudent';
+import {startOfDay, parseISO} from 'date-fns';
 
 let studentRouter = Router();
 
+
 studentRouter.get('/', async (request, response) => {
-  const userRepository = getRepository(User);
-  let students = await userRepository.find({});
-  return response.json(students);
+  const studentRepository = getRepository(Student);
+  // TODO: move this to a internal documentation
+  // The following snippets produce the same output:
+
+  // let students = await studentRepository
+  //   .createQueryBuilder('students')
+  //   .select(['users.id, name, nickname, email, birthday, enrollment_number'])
+  //   .innerJoin('users', 'users', 'students.user_id = users.id')
+  //   .getRawMany();
+  
+
+  // let students = await studentRepository.query(`
+  //   SELECT users.id, name, nickname, email, birthday, enrollment_number FROM students
+  //   JOIN users ON students.user_id = users.id;
+  // `);
+
+  let students = await studentRepository.find({relations: ['user']});
+  const formattedStudents = students.map(student => ({
+    id: student.user.id,
+    name: student.user.name,
+    nickname: student.user.nickname,
+    email: student.user.email,
+    birthday: student.user.birthday,
+    enrollment_number: student.enrollment_number
+  }));
+  return response.json(formattedStudents);
 });
 
 studentRouter.post('/', async (request, response) => {
-  const { username, email, password, name, nickname, birthday } = request.body;
+  const {
+    username,
+    email,
+    password,
+    name,
+    nickname,
+    birthday,
+    enrollment_number
+  } = request.body;
+
   const userRepository = getRepository(User);
-  const user = await new CreateUserService(userRepository).execute({
-    username, email, password, name, nickname, birthday
+  const studentRepository = getRepository(Student);
+  const createStudentService = new CreateStudent(
+    userRepository, studentRepository);
+
+  const parsedBirthday: Date = startOfDay(parseISO(birthday));
+  console.log(parsedBirthday);
+  const student = await createStudentService.execute({
+    username,
+    email,
+    password,
+    name,
+    nickname,
+    birthday: parsedBirthday,
+    enrollment_number
   });
-  response.json(user);
+  response.json(student);
 })
 
 export default studentRouter;

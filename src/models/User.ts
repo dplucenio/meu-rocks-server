@@ -20,7 +20,7 @@ class User {
   @Column('varchar')
   nickname: string;
 
-  @Column('date')
+  @Column('timestamp with time zone')
   birthday: Date;
 
   @CreateDateColumn()

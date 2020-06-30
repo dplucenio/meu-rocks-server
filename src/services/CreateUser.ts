@@ -11,7 +11,7 @@ interface Request {
   birthday: Date;
 }
 
-class CreateUserService {
+class CreateUser {
   // TODO: evaluate 'program to an interface' here
   private repository: Repository<User>;
 
@@ -35,4 +35,4 @@ class CreateUserService {
   }
 }
 
-export default CreateUserService;
+export default CreateUser;
