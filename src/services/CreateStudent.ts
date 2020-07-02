@@ -1,11 +1,9 @@
 import { Repository } from 'typeorm';
 import User from '../models/User';
 import Student from '../models/Student';
-import studentRouter from '../routes/student.router';
 import CreateUser from './CreateUser';
 
 interface Request {
-  username: string;
   email: string;
   password: string;
   name: string;
@@ -26,7 +24,6 @@ class CreateStudent {
 
   async execute(request: Request): Promise<Student> {
     const user = await new CreateUser(this.userRepository).execute({
-      username: request.username,
       name: request.name,
       nickname: request.nickname,
       email: request.email,

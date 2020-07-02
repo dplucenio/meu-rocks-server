@@ -3,7 +3,6 @@ import { hash } from 'bcryptjs';
 import User from '../models/User';
 
 interface Request {
-  username: string;
   email: string;
   password: string;
   name: string;
@@ -20,7 +19,6 @@ class CreateUser {
   }
 
   async execute({
-    username,
     email,
     password,
     name,
@@ -29,7 +27,7 @@ class CreateUser {
   }: Request): Promise<User> {
     const hashedPassword = await hash(password, 8);
     let user = this.repository.create(
-      {username, email, password: hashedPassword, name, nickname, birthday});
+      {email, password: hashedPassword, name, nickname, birthday});
     await this.repository.save(user);
     return user;
   }

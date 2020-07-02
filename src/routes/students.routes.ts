@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { getRepository } from 'typeorm';
 import User from '../models/User'; import Student from '../models/Student';
 import CreateStudent from '../services/CreateStudent';
-import {startOfDay, parseISO} from 'date-fns';
+import { startOfDay, parseISO } from 'date-fns';
 
 let studentRouter = Router();
 
@@ -17,14 +17,14 @@ studentRouter.get('/', async (request, response) => {
   //   .select(['users.id, name, nickname, email, birthday, enrollment_number'])
   //   .innerJoin('users', 'users', 'students.user_id = users.id')
   //   .getRawMany();
-  
+
 
   // let students = await studentRepository.query(`
   //   SELECT users.id, name, nickname, email, birthday, enrollment_number FROM students
   //   JOIN users ON students.user_id = users.id;
   // `);
 
-  let students = await studentRepository.find({relations: ['user']});
+  let students = await studentRepository.find({ relations: ['user'] });
   const formattedStudents = students.map(student => ({
     id: student.user.id,
     name: student.user.name,
@@ -38,7 +38,6 @@ studentRouter.get('/', async (request, response) => {
 
 studentRouter.post('/', async (request, response) => {
   const {
-    username,
     email,
     password,
     name,
@@ -53,9 +52,7 @@ studentRouter.post('/', async (request, response) => {
     userRepository, studentRepository);
 
   const parsedBirthday: Date = startOfDay(parseISO(birthday));
-  console.log(parsedBirthday);
   const student = await createStudentService.execute({
-    username,
     email,
     password,
     name,

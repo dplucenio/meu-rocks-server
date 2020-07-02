@@ -6,9 +6,6 @@ class User {
   id: string;
 
   @Column('varchar')
-  username: string;
-
-  @Column('varchar')
   email: string;
 
   @Column('varchar')
