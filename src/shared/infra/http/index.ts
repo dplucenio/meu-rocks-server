@@ -1,9 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import dotenv from 'dotenv';
-import { createSQLConnection } from './database';
+import { createSQLConnection } from '../typeorm';
 import router from './routes';
-import AppError from './errors/AppError';
+import AppError from '@shared/errors/AppError';
 
 dotenv.config();
 

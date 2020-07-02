@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
-import User from '../models/User'; import Student from '../models/Student';
-import CreateStudent from '../services/CreateStudent';
+import User from '@modules/users/infra/typeorm/entities/User';
+import Student from '@modules/users/infra/typeorm/entities/Student';
+import CreateStudent from '@modules/users/services/CreateStudent';
 import { startOfDay, parseISO } from 'date-fns';
 
 let studentRouter = Router();

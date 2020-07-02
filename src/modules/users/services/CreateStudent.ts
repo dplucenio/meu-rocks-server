@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import User from '../models/User';
-import Student from '../models/Student';
+import User from '../infra/typeorm/entities/User';
+import Student from '../infra/typeorm/entities/Student';
 import CreateUser from './CreateUser';
 
 interface Request {

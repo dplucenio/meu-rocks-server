@@ -1,6 +1,6 @@
 import {Router} from 'express';
-import studentsRouter from './students.routes';
-import sessionsRouter from './sessions.routes';
+import studentsRouter from '@modules/users/infra/http/routes/students.routes';
+import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 
 const router: Router = Router();
 router.use('/students', studentsRouter);
