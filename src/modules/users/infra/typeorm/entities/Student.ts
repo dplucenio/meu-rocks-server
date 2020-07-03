@@ -6,7 +6,7 @@ class Student{
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('bigint')
+  @Column('int')
   enrollment_number: number;
 
   @Column('uuid')

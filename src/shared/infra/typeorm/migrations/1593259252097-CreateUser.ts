@@ -37,7 +37,7 @@ export class CreateUser1593259252097 implements MigrationInterface {
 
         CREATE TABLE students(
             id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-            enrollment_number BIGINT UNIQUE NOT NULL,
+            enrollment_number INT UNIQUE NOT NULL,
             user_id UUID UNIQUE NOT NULL REFERENCES users(id)
         );
 
