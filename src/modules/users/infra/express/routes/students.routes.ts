@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
-import User from '@modules/users/infra/typeorm/entities/User';
-import Student from '@modules/users/infra/typeorm/entities/Student';
+import ORMUser from '@modules/users/infra/typeorm/entities/User';
+import ORMStudent from '@modules/users/infra/typeorm/entities/Student';
 import CreateStudent from '@modules/users/services/CreateStudent';
 import { startOfDay, parseISO } from 'date-fns';
 
@@ -9,7 +9,7 @@ let studentRouter = Router();
 
 
 studentRouter.get('/', async (request, response) => {
-  const studentRepository = getRepository(Student);
+  const studentRepository = getRepository(ORMStudent);
   // TODO: move this to a internal documentation
   // The following snippets produce the same output:
 
@@ -47,8 +47,8 @@ studentRouter.post('/', async (request, response) => {
     enrollment_number
   } = request.body;
 
-  const userRepository = getRepository(User);
-  const studentRepository = getRepository(Student);
+  const userRepository = getRepository(ORMUser);
+  const studentRepository = getRepository(ORMStudent);
   const createStudentService = new CreateStudent(
     userRepository, studentRepository);
 

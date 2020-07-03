@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import User from '../infra/typeorm/entities/User';
+import ORMUser from '../infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
 
 interface Request {
@@ -10,9 +10,9 @@ interface Request {
 }
 
 class AuthenticateUser {
-  userRepository: Repository<User>;
+  userRepository: Repository<ORMUser>;
 
-  constructor(userRepository: Repository<User>) {
+  constructor(userRepository: Repository<ORMUser>) {
     this.userRepository = userRepository;
   }
 

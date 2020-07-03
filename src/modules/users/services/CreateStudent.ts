@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import User from '../infra/typeorm/entities/User';
-import Student from '../infra/typeorm/entities/Student';
+import ORMUser, { IUser } from '../infra/typeorm/entities/User';
+import ORMStudent from '../infra/typeorm/entities/Student';
 import CreateUser from './CreateUser';
 
 interface Request {
@@ -13,17 +13,17 @@ interface Request {
 }
 
 class CreateStudent {
-  userRepository: Repository<User>;
-  studentRepository: Repository<Student>;
+  userRepository: Repository<ORMUser>;
+  studentRepository: Repository<ORMStudent>;
 
   constructor(
-    userRepository: Repository<User>, studentRepository: Repository<Student>) {
+    userRepository: Repository<ORMUser>, studentRepository: Repository<ORMStudent>) {
     this.userRepository = userRepository;
     this.studentRepository = studentRepository;
   }
 
-  async execute(request: Request): Promise<Student> {
-    const user = await new CreateUser(this.userRepository).execute({
+  async execute(request: Request): Promise<ORMStudent> {
+    const user: IUser = await new CreateUser(this.userRepository).execute({
       name: request.name,
       nickname: request.nickname,
       email: request.email,
