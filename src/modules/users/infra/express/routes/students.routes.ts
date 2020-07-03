@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
-import ORMUser from '@modules/users/infra/typeorm/entities/User';
 import ORMStudent from '@modules/users/infra/typeorm/entities/Student';
 import CreateStudent from '@modules/users/services/CreateStudent';
 import { startOfDay, parseISO } from 'date-fns';
+import ORMUserRepository from '../../typeorm/repositories/UserRepository';
 
 let studentRouter = Router();
 
@@ -47,7 +47,7 @@ studentRouter.post('/', async (request, response) => {
     enrollment_number
   } = request.body;
 
-  const userRepository = getRepository(ORMUser);
+  const userRepository = new ORMUserRepository();
   const studentRepository = getRepository(ORMStudent);
   const createStudentService = new CreateStudent(
     userRepository, studentRepository);
