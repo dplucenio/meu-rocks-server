@@ -1,7 +1,8 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import User from '@modules/users/entities/User';
 
 @Entity('users')
-class User {
+class ORMUser implements User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -27,4 +28,5 @@ class User {
   updated_at: Date;
 }
 
-export default User;
+export default ORMUser;
+export { User as IUser };
