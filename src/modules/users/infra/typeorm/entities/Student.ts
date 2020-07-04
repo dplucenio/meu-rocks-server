@@ -1,8 +1,10 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn} from 'typeorm';
-import User from './User';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import ORMUser from './User';
+import User from '@modules/users/entities/User';
+import Student from '@modules/users/entities/Student';
 
 @Entity('students')
-class Student{
+class ORMStudent implements Student{
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -12,9 +14,9 @@ class Student{
   @Column('uuid')
   user_id: string;
 
-  @OneToOne(() => User)
-  @JoinColumn({name: 'user_id'})
-  user: User;
+  @OneToOne(() => ORMUser)
+  @JoinColumn({ name: 'user_id' })
+  user: ORMUser;
 }
 
-export default Student;
+export default ORMStudent;

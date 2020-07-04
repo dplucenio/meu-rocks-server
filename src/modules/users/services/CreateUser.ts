@@ -1,6 +1,8 @@
 import { Repository } from 'typeorm';
 import { hash } from 'bcryptjs';
-import User from '../infra/typeorm/entities/User';
+import UserRepository from '../repositories/UserRepository';
+import User from '../entities/User';
+// import ORMUser from '../infra/typeorm/entities/User';
 
 interface Request {
   email: string;
@@ -11,10 +13,9 @@ interface Request {
 }
 
 class CreateUser {
-  // TODO: evaluate 'program to an interface' here
-  private repository: Repository<User>;
+  private repository: UserRepository;
 
-  constructor(repository: Repository<User>) {
+  constructor(repository: UserRepository) {
     this.repository = repository;
   }
 
@@ -24,11 +25,10 @@ class CreateUser {
     name,
     nickname,
     birthday
-  }: Request): Promise<User> {
+  }: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<User> {
     const hashedPassword = await hash(password, 8);
-    let user = this.repository.create(
-      {email, password: hashedPassword, name, nickname, birthday});
-    await this.repository.save(user);
+    let user = await this.repository.create(
+      { email, password: hashedPassword, name, nickname, birthday });
     return user;
   }
 }
