@@ -1,8 +1,7 @@
-import { Repository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import ORMUser from '../infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
+import UserRepository from '@modules/users/repositories/UserRepository';
 
 interface Request {
   email: string;
@@ -10,14 +9,14 @@ interface Request {
 }
 
 class AuthenticateUser {
-  userRepository: Repository<ORMUser>;
+  userRepository: UserRepository;
 
-  constructor(userRepository: Repository<ORMUser>) {
+  constructor(userRepository: UserRepository) {
     this.userRepository = userRepository;
   }
 
   public async execute({ email, password }: Request): Promise<{ token: string }> {
-    const user = await this.userRepository.findOne({ where: { email } });
+    const user = await this.userRepository.findByEmail(email);
     if (!user) {
       throw new AppError('Incorrect email/password combination');
     }
