@@ -4,6 +4,7 @@ import ORMStudent from '@modules/users/infra/typeorm/entities/Student';
 import CreateStudent from '@modules/users/services/CreateStudent';
 import { startOfDay, parseISO } from 'date-fns';
 import ORMUserRepository from '../../typeorm/repositories/UserRepository';
+import ORMStudentRepository from '../../typeorm/repositories/StudentRepository';
 
 let studentRouter = Router();
 
@@ -48,7 +49,7 @@ studentRouter.post('/', async (request, response) => {
   } = request.body;
 
   const userRepository = new ORMUserRepository();
-  const studentRepository = getRepository(ORMStudent);
+  const studentRepository = new ORMStudentRepository();
   const createStudentService = new CreateStudent(
     userRepository, studentRepository);
 
