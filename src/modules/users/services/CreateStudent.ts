@@ -1,18 +1,8 @@
-import { Repository } from 'typeorm';
 import CreateUser from './CreateUser';
 import UserRepository from '../repositories/UserRepository';
 import User from '@modules/users/entities/User';
 import Student from '@modules/users/entities/Student'
 import StudentRepository from '../repositories/StudentRepository';
-
-// interface Request {
-//   email: string;
-//   password: string;
-//   name: string;
-//   nickname: string;
-//   birthday: Date;
-//   enrollment_number: number;
-// }
 
 type Request = Omit<User, 'id' | 'created_at' | 'updated_at'>
   & Omit<Student, 'id' | 'user' | 'user_id'>;

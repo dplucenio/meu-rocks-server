@@ -1,4 +1,4 @@
-name: JavaScript workflow
+name: Test
 
 on: [push]
 
