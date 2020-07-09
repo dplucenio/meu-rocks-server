@@ -1,7 +1,8 @@
 import User from "../entities/User";
+import {UserCreationDTO} from '@modules/users/dtos/UserDTO';
 
 interface UserRepository {
-  create(data: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<User>;
+  create(data: UserCreationDTO): Promise<User>;
   findByEmail(email: string): Promise<User | undefined>;
 }
 
