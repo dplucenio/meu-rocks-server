@@ -37,36 +37,36 @@ describe('CreateUser', () => {
 
   it('should use first name as nickname if no nickname is provided', async () => {
     const userRepository = new FakeUserRepository();
-    {
-      let user = await new CreateUser(userRepository).execute({
-        name: 'John Doe',
-        password: '123456',
-        email: 'jdoe@mail.com',
-        birthday: parseISO('1990-12-12')
-      });
-      expect(user.nickname).toEqual('John');
-    }
+    let user = await new CreateUser(userRepository).execute({
+      name: 'John Doe',
+      password: '123456',
+      email: 'jdoe@mail.com',
+      birthday: parseISO('1990-12-12')
+    });
+    expect(user.nickname).toEqual('John');
   });
 
   it('should not be possible to create a user with null name', async () => {
     const userRepository = new FakeUserRepository();
+    const createUserService = new CreateUser(userRepository);
+
     let name: any;
-    expect(async () => {
-      const createUserService = new CreateUser(userRepository);
+    expect(
       createUserService.execute({
         name,
         nickname: 'Doe',
         password: '123456',
         email: 'jdoe@mail.com',
         birthday: parseISO('1990-12-12')
-      }).then(data => {
-        console.log(data)
-      });
-      // throw new AppError('a');
+      })).rejects.toThrowError(`User can't have null or empty name`);
 
-    }).toThrow(AppError);
-  })
-
-
-
+    expect(
+      createUserService.execute({
+        name: '',
+        nickname: 'Doe',
+        password: '123456',
+        email: 'jdoe@mail.com',
+        birthday: parseISO('1990-12-12')
+      })).rejects.toThrowError(`User can't have null or empty name`);
+  });
 });

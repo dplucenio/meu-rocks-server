@@ -13,14 +13,14 @@ class CreateUser {
 
   async execute(request: UserCreationServiceDTO): Promise<User> {
     this.validateUserCreation(request);
-    let {email, password, name, nickname, birthday} = request;
+    let { email, password, name, nickname, birthday } = request;
 
     const defaultNickname = name.split(' ')[0];
     nickname = nickname ? nickname : defaultNickname;
-    const hashedPassword = await hash(password, 8);    
+    const hashedPassword = await hash(password, 8);
 
     let user = await this.repository.create(
-      {email, password: hashedPassword, name, nickname, birthday });
+      { email, password: hashedPassword, name, nickname, birthday });
     return user;
   }
 
@@ -28,7 +28,7 @@ class CreateUser {
     if (!request.name || request.name === '') {
       throw new AppError(`User can't have null or empty name`, 400);
     }
-    
+
   }
 }
 
