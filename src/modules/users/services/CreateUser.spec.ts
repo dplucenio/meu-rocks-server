@@ -15,7 +15,7 @@ describe('CreateUser', () => {
     expect(user.name).toEqual('Duque');
   });
 
-  it('should be possible to create a user with a date or string', async () => {
+  it('should be possible to create a user with a birthday as string', async () => {
     const userRepository = new FakeUserRepository();
     let dateString = '1990-12-12';
     {
@@ -29,8 +29,21 @@ describe('CreateUser', () => {
       expect(duque.name).toEqual('Duque');
       expect(isEqual(duque.birthday, parseISO('1990-12-12'))).toBe(true);
     }
-  })
+  });
 
-  // test('if nickname is undefined, the first name should be used', () => true)
+  it('should use first name as nickname if no nickname is provided', async () => {
+    const userRepository = new FakeUserRepository();
+    {
+      let user = await new CreateUser(userRepository).execute({
+        name: 'John Doe',
+        password: '123456',
+        email: 'jdoe@mail.com',
+        birthday: parseISO('1990-12-12')
+      });
+      expect(user.name).toEqual('John Doe');
+      expect(user.nickname).toEqual('John');
+      expect(isEqual(user.birthday, parseISO('1990-12-12'))).toBe(true);
+    }
+  });
 
 });
