@@ -1,16 +1,8 @@
-import { Repository } from 'typeorm';
 import { hash } from 'bcryptjs';
 import UserRepository from '../repositories/UserRepository';
 import User from '../entities/User';
-// import ORMUser from '../infra/typeorm/entities/User';
-
-interface Request {
-  email: string;
-  password: string;
-  name: string;
-  nickname: string;
-  birthday: Date;
-}
+import { UserCreationServiceDTO } from '../dtos/UserDTO';
+import AppError from '@shared/errors/AppError';
 
 class CreateUser {
   private repository: UserRepository;
@@ -19,17 +11,24 @@ class CreateUser {
     this.repository = repository;
   }
 
-  async execute({
-    email,
-    password,
-    name,
-    nickname,
-    birthday
-  }: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<User> {
+  async execute(request: UserCreationServiceDTO): Promise<User> {
+    this.validateUserCreation(request);
+    let { email, password, name, nickname, birthday } = request;
+
+    const defaultNickname = name.split(' ')[0];
+    nickname = nickname ? nickname : defaultNickname;
     const hashedPassword = await hash(password, 8);
+
     let user = await this.repository.create(
       { email, password: hashedPassword, name, nickname, birthday });
     return user;
+  }
+
+  private validateUserCreation(request: UserCreationServiceDTO): void {
+    if (!request.name || request.name === '') {
+      throw new AppError(`User can't have null or empty name`, 400);
+    }
+
   }
 }
 
