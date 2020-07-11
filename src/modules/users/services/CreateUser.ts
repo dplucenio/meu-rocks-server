@@ -16,7 +16,7 @@ class CreateUser {
     let { email, password, name, nickname, birthday } = request;
 
     const defaultNickname = name.split(' ')[0];
-    nickname = nickname ? nickname : defaultNickname;
+    nickname = (!nickname || nickname === '') ? defaultNickname : nickname;
     const hashedPassword = await hash(password, 8);
 
     let user = await this.repository.create(

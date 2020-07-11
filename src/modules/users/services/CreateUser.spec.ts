@@ -35,8 +35,9 @@ describe('CreateUser', () => {
     }
   });
 
-  it('should use first name as nickname if no nickname is provided', async () => {
+  it('should use first name as nickname if null or empy nickname is provided', async () => {
     const userRepository = new FakeUserRepository();
+    expect.assertions(2);
     let user = await new CreateUser(userRepository).execute({
       name: 'John Doe',
       password: '123456',
@@ -44,9 +45,17 @@ describe('CreateUser', () => {
       birthday: parseISO('1990-12-12')
     });
     expect(user.nickname).toEqual('John');
+    user = await new CreateUser(userRepository).execute({
+      name: 'Paul McCartney',
+      nickname: '',
+      password: '123456',
+      email: 'pmccartney@mail.com',
+      birthday: parseISO('1990-12-12')
+    });
+    expect(user.nickname).toEqual('Paul');
   });
 
-  it('should not be possible to create a user with null name', async () => {
+  it('should not be possible to create a user with null or empty name', async () => {
     const userRepository = new FakeUserRepository();
     const createUserService = new CreateUser(userRepository);
 
@@ -73,21 +82,29 @@ describe('CreateUser', () => {
   it('should raise an error with birthday has an invalid Date', () => {
     const userRepository = new FakeUserRepository();
     const createUserService = new CreateUser(userRepository);
+    expect.assertions(4);
+
     let birthday: any;
-    expect(createUserService.execute({
+    createUserService.execute({
       name: 'John Doe',
       nickname: 'Doe',
       password: '123456',
       email: 'jdoe@mail.com',
       birthday
-    })).rejects.toThrowError(`User can't have null birthday`);
+    }).catch(error => {
+      expect(error).toBeInstanceOf(AppError);
+      expect(error.message).toBe(`User can't have null or invalid birthday`);
+    });
 
-    expect(createUserService.execute({
+    createUserService.execute({
       name: 'John Doe',
       nickname: 'Doe',
       password: '123456',
       email: 'jdoe@mail.com',
       birthday: parseISO('john doe')
-    })).rejects.toThrowError(`User can't have null birthday`);
-  })
+    }).catch(error => {
+      expect(error).toBeInstanceOf(AppError);
+      expect(error.message).toBe(`User can't have null or invalid birthday`);
+    });
+  });
 });
