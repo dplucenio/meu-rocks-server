@@ -28,7 +28,9 @@ class CreateUser {
     if (!request.name || request.name === '') {
       throw new AppError(`User can't have null or empty name`, 400);
     }
-
+    if (!request.birthday || isNaN(request.birthday.getTime())) {
+      throw new AppError(`User can't have null or invalid birthday`, 400);
+    }
   }
 }
 

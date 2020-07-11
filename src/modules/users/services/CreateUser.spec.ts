@@ -69,4 +69,25 @@ describe('CreateUser', () => {
         birthday: parseISO('1990-12-12')
       })).rejects.toThrowError(`User can't have null or empty name`);
   });
+
+  it('should raise an error with birthday has an invalid Date', () => {
+    const userRepository = new FakeUserRepository();
+    const createUserService = new CreateUser(userRepository);
+    let birthday: any;
+    expect(createUserService.execute({
+      name: 'John Doe',
+      nickname: 'Doe',
+      password: '123456',
+      email: 'jdoe@mail.com',
+      birthday
+    })).rejects.toThrowError(`User can't have null birthday`);
+
+    expect(createUserService.execute({
+      name: 'John Doe',
+      nickname: 'Doe',
+      password: '123456',
+      email: 'jdoe@mail.com',
+      birthday: parseISO('john doe')
+    })).rejects.toThrowError(`User can't have null birthday`);
+  })
 });
