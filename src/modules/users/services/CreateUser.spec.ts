@@ -1,8 +1,7 @@
-import CreateUser from "./CreateUser";
-import FakeUserRepository from "../repositories/fakes/FakeUserRepository";
-import { parseISO, isEqual } from 'date-fns';
 import AppError from "@shared/errors/AppError";
-import { Any } from "typeorm";
+import { isEqual, parseISO } from 'date-fns';
+import FakeUserRepository from "../repositories/fakes/FakeUserRepository";
+import CreateUser from "./CreateUser";
 
 describe('CreateUser', () => {
   it('should be possible to create a new user', async () => {
@@ -106,5 +105,29 @@ describe('CreateUser', () => {
       expect(error).toBeInstanceOf(AppError);
       expect(error.message).toBe(`User can't have null or invalid birthday`);
     });
+  });
+
+  it('should not be possible to create a user with null or empty password', async () => {
+    const userRepository = new FakeUserRepository();
+    const createUserService = new CreateUser(userRepository);
+
+    let password: any;
+    expect(
+      createUserService.execute({
+        name: 'John Doe',
+        nickname: 'Doe',
+        password,
+        email: 'jdoe@mail.com',
+        birthday: parseISO('1990-12-12')
+      })).rejects.toThrowError(`User can't have null or empy password`);
+
+    expect(
+      createUserService.execute({
+        name: 'John Doe',
+        nickname: 'Doe',
+        password: '',
+        email: 'jdoe@mail.com',
+        birthday: parseISO('1990-12-12')
+      })).rejects.toThrowError(`User can't have null or empy password`);
   });
 });

@@ -1,8 +1,8 @@
-import { hash } from 'bcryptjs';
-import UserRepository from '../repositories/UserRepository';
-import User from '../entities/User';
-import { UserCreationServiceDTO } from '../dtos/UserDTO';
 import AppError from '@shared/errors/AppError';
+import { hash } from 'bcryptjs';
+import { UserCreationServiceDTO } from '../dtos/UserDTO';
+import User from '../entities/User';
+import UserRepository from '../repositories/UserRepository';
 
 class CreateUser {
   private repository: UserRepository;
@@ -30,6 +30,9 @@ class CreateUser {
     }
     if (!request.birthday || isNaN(request.birthday.getTime())) {
       throw new AppError(`User can't have null or invalid birthday`, 400);
+    }
+    if (!request.password || request.password === '') {
+      throw new AppError(`User can't have null or empy password`, 400);
     }
   }
 }
