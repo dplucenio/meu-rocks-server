@@ -1,10 +1,10 @@
-import express, { Request, Response, NextFunction } from 'express';
-import 'express-async-errors';
 import dotenv from 'dotenv';
-
-import { createConnection as createSQLConnection} from 'typeorm';
-import router from './routes';
+import express from 'express';
+import 'express-async-errors';
+import { createConnection as createSQLConnection } from 'typeorm';
 import globalErrorHandler from './middlewares/globalErrorHandler';
+import router from './routes';
+
 
 dotenv.config();
 

@@ -1,7 +1,5 @@
-import { Router } from 'express';
-import { getRepository } from 'typeorm';
 import AuthenticateUser from '@modules/users/services/AuthenticateUser';
-import ORMUser from '@modules/users/infra/typeorm/entities/User';
+import { Router } from 'express';
 import ORMUserRepository from '../../typeorm/repositories/UserRepository';
 
 let sessionsRouter = Router();

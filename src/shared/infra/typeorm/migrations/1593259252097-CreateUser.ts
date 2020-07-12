@@ -1,6 +1,6 @@
-import {MigrationInterface, QueryRunner} from 'typeorm';
+import { hash } from 'bcryptjs';
 import dotenv from 'dotenv';
-import {hash} from 'bcryptjs';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 dotenv.config();
 
 export class CreateUser1593259252097 implements MigrationInterface {

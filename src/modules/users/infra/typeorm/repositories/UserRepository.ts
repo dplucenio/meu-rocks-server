@@ -1,8 +1,8 @@
-import { Repository, getRepository } from "typeorm";
-
-import ORMUser from "../entities/User";
 import User from "@modules/users/entities/User";
 import UserRepository from "@modules/users/repositories/UserRepository";
+import { getRepository, Repository } from "typeorm";
+import ORMUser from "../entities/User";
+
 
 class ORMUserRepository implements UserRepository {
   private userRepository: Repository<ORMUser>;

@@ -1,10 +1,10 @@
+import ORMStudent from '@modules/users/infra/typeorm/entities/Student';
+import ORMStudentRepository from '@modules/users/infra/typeorm/repositories/StudentRepository';
+import ORMUserRepository from '@modules/users/infra/typeorm/repositories/UserRepository';
+import CreateStudent from '@modules/users/services/CreateStudent';
+import { parseISO, startOfDay } from 'date-fns';
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
-import ORMStudent from '@modules/users/infra/typeorm/entities/Student';
-import CreateStudent from '@modules/users/services/CreateStudent';
-import { startOfDay, parseISO } from 'date-fns';
-import ORMUserRepository from '../../typeorm/repositories/UserRepository';
-import ORMStudentRepository from '../../typeorm/repositories/StudentRepository';
 
 let studentRouter = Router();
 

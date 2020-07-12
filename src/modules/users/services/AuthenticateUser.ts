@@ -1,7 +1,7 @@
+import UserRepository from '@modules/users/repositories/UserRepository';
+import AppError from '@shared/errors/AppError';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import AppError from '@shared/errors/AppError';
-import UserRepository from '@modules/users/repositories/UserRepository';
 
 interface Request {
   email: string;

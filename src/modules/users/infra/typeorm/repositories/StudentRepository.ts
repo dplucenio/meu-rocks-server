@@ -1,7 +1,7 @@
-import { Repository, getRepository } from 'typeorm';
-import ORMStudent from '../entities/Student';
 import Student from '@modules/users/entities/Student';
 import StudentRepository from '@modules/users/repositories/StudentRepository';
+import { getRepository, Repository } from 'typeorm';
+import ORMStudent from '../entities/Student';
 
 type StudentCreationDTO = Omit<Student, 'id' | 'user'>;
 

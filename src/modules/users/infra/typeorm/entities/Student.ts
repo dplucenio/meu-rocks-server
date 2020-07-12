@@ -1,7 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import ORMUser from './User';
-import User from '@modules/users/entities/User';
 import Student from '@modules/users/entities/Student';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import ORMUser from './User';
 
 @Entity('students')
 class ORMStudent implements Student{

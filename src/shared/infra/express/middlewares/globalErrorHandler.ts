@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
 import AppError from '@shared/errors/AppError';
+import { NextFunction, Request, Response } from 'express';
 
 function globalErrorHandler(err: Error, request: Request, response: Response, _: NextFunction) {
   if (err instanceof AppError) {
