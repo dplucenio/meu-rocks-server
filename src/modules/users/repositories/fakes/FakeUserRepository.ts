@@ -27,7 +27,7 @@ class FakeUserRepository implements UserRepository {
     return user;
   }
   async findByEmail(email: string): Promise<User | undefined> {
-    return undefined;
+    return this.users.find(user => user.email === email);
   }
 }
 

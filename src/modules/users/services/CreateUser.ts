@@ -12,7 +12,7 @@ class CreateUser {
   }
 
   async execute(request: UserCreationServiceDTO): Promise<User> {
-    this.validateUserCreation(request);
+    await this.validateUserCreation(request);
     let { email, password, name, nickname, birthday } = request;
 
     const defaultNickname = name.split(' ')[0];
@@ -24,7 +24,7 @@ class CreateUser {
     return user;
   }
 
-  private validateUserCreation(request: UserCreationServiceDTO): void {
+  private async validateUserCreation(request: UserCreationServiceDTO): Promise<void> {
     if (!request.name || request.name === '') {
       throw new AppError(`User can't have null or empty name`, 400);
     }
@@ -32,7 +32,14 @@ class CreateUser {
       throw new AppError(`User can't have null or invalid birthday`, 400);
     }
     if (!request.password || request.password === '') {
-      throw new AppError(`User can't have null or empy password`, 400);
+      throw new AppError(`User can't have null or empty password`, 400);
+    }
+    if (!request.email || request.email === '') {
+      throw new AppError(`User can't have null or empty password`, 400);
+    }
+    let existingEmailUser = await this.repository.findByEmail(request.email);
+    if (existingEmailUser) {
+      throw new AppError(`This e-mail is already used`, 400);
     }
   }
 }
