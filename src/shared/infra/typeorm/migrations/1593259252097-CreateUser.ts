@@ -1,14 +1,14 @@
 import { hash } from 'bcryptjs';
 import dotenv from 'dotenv';
 import { MigrationInterface, QueryRunner } from 'typeorm';
+
 dotenv.config();
 
-export class CreateUser1593259252097 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        let adminPassword: string = process.env.ADMIN_PASSWORD as string;
-        const hashedAdminPassword = await hash(adminPassword, 8);
-        await queryRunner.query(`
+export default class CreateUser1593259252097 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    const adminPassword: string = process.env.ADMIN_PASSWORD as string;
+    const hashedAdminPassword = await hash(adminPassword, 8);
+    await queryRunner.query(`
         CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
         CREATE TABLE subjects(
@@ -45,14 +45,14 @@ export class CreateUser1593259252097 implements MigrationInterface {
         users(email, password, name, nickname, birthday)
         VALUES('dplucenio@gmail.com', '${hashedAdminPassword}', 'Daniel Plucenio', 'Daniel', DATE '1985-07-21');
         `);
-    }
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         DROP TABLE students;
         DROP TABLE users;
         DROP TABLE classes;
         DROP TABLE subjects;
-        `)
-    }
+        `);
+  }
 }

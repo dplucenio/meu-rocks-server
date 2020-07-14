@@ -1,4 +1,4 @@
-import User from "../entities/User";
+import User from '../entities/User';
 
 interface UserCreationServiceDTO {
   email: string;
@@ -10,7 +10,4 @@ interface UserCreationServiceDTO {
 
 type UserCreationDTO = Omit<User, 'id' | 'created_at' | 'updated_at'>;
 
-export {
-  UserCreationServiceDTO,
-  UserCreationDTO
-}
+export { UserCreationServiceDTO, UserCreationDTO };

@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import studentsRouter from '@modules/users/infra/express/routes/students.routes';
 import sessionsRouter from '@modules/users/infra/express/routes/sessions.routes';
 

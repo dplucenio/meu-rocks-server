@@ -6,8 +6,7 @@ import { parseISO, startOfDay } from 'date-fns';
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
 
-let studentRouter = Router();
-
+const studentRouter = Router();
 
 studentRouter.get('/', async (request, response) => {
   const studentRepository = getRepository(ORMStudent);
@@ -20,20 +19,19 @@ studentRouter.get('/', async (request, response) => {
   //   .innerJoin('users', 'users', 'students.user_id = users.id')
   //   .getRawMany();
 
-
   // let students = await studentRepository.query(`
   //   SELECT users.id, name, nickname, email, birthday, enrollment_number FROM students
   //   JOIN users ON students.user_id = users.id;
   // `);
 
-  let students = await studentRepository.find({ relations: ['user'] });
+  const students = await studentRepository.find({ relations: ['user'] });
   const formattedStudents = students.map(student => ({
     id: student.user.id,
     name: student.user.name,
     nickname: student.user.nickname,
     email: student.user.email,
     birthday: student.user.birthday,
-    enrollment_number: student.enrollment_number
+    enrollment_number: student.enrollment_number,
   }));
   return response.json(formattedStudents);
 });
@@ -45,13 +43,15 @@ studentRouter.post('/', async (request, response) => {
     name,
     nickname,
     birthday,
-    enrollment_number
+    enrollment_number,
   } = request.body;
 
   const userRepository = new ORMUserRepository();
   const studentRepository = new ORMStudentRepository();
   const createStudentService = new CreateStudent(
-    userRepository, studentRepository);
+    userRepository,
+    studentRepository,
+  );
 
   const parsedBirthday: Date = startOfDay(parseISO(birthday));
   const student = await createStudentService.execute({
@@ -60,9 +60,9 @@ studentRouter.post('/', async (request, response) => {
     name,
     nickname,
     birthday: parsedBirthday,
-    enrollment_number
+    enrollment_number,
   });
   response.json(student);
-})
+});
 
 export default studentRouter;

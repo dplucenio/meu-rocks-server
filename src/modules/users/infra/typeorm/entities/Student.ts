@@ -1,9 +1,15 @@
 import Student from '@modules/users/entities/Student';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import ORMUser from './User';
 
 @Entity('students')
-class ORMStudent implements Student{
+class ORMStudent implements Student {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

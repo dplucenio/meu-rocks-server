@@ -1,5 +1,5 @@
-import User from "../entities/User";
-import {UserCreationDTO} from '@modules/users/dtos/UserDTO';
+import { UserCreationDTO } from '@modules/users/dtos/UserDTO';
+import User from '../entities/User';
 
 interface UserRepository {
   create(data: UserCreationDTO): Promise<User>;

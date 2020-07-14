@@ -4,15 +4,18 @@ import StudentRepository from '../repositories/StudentRepository';
 import UserRepository from '../repositories/UserRepository';
 import CreateUser from './CreateUser';
 
-type Request = Omit<User, 'id' | 'created_at' | 'updated_at'>
-  & Omit<Student, 'id' | 'user' | 'user_id'>;
+type Request = Omit<User, 'id' | 'created_at' | 'updated_at'> &
+  Omit<Student, 'id' | 'user' | 'user_id'>;
 
 class CreateStudent {
   userRepository: UserRepository;
+
   studentRepository: StudentRepository;
 
   constructor(
-    userRepository: UserRepository, studentRepository: StudentRepository) {
+    userRepository: UserRepository,
+    studentRepository: StudentRepository,
+  ) {
     this.userRepository = userRepository;
     this.studentRepository = studentRepository;
   }
@@ -24,12 +27,12 @@ class CreateStudent {
       nickname: request.nickname,
       email: request.email,
       password: request.password,
-      birthday: request.birthday
+      birthday: request.birthday,
     });
     const student = await this.studentRepository.create({
       user_id: user.id,
       enrollment_number: request.enrollment_number,
-    })    
+    });
     return student;
   }
 }
