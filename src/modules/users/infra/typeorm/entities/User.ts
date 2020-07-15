@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import User from '@modules/users/entities/User';
+import User, { Role } from '@modules/users/entities/User';
 
 @Entity('users')
 class ORMUser implements User {
@@ -26,6 +26,12 @@ class ORMUser implements User {
 
   @Column('timestamp with time zone')
   birthday: Date;
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+  })
+  role: Role;
 
   @CreateDateColumn()
   created_at: Date;

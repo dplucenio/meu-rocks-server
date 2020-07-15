@@ -13,7 +13,7 @@ class CreateUser {
 
   async execute(request: UserCreationServiceDTO): Promise<User> {
     await this.validateUserCreation(request);
-    const { email, password, name, birthday } = request;
+    const { email, password, name, birthday, role } = request;
     let { nickname } = request;
 
     const defaultNickname = name.split(' ')[0];
@@ -26,6 +26,7 @@ class CreateUser {
       name,
       nickname,
       birthday,
+      role,
     });
     return user;
   }

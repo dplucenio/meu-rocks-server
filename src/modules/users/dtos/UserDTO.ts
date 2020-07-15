@@ -1,4 +1,4 @@
-import User from '../entities/User';
+import User, { Role } from '../entities/User';
 
 interface UserCreationServiceDTO {
   email: string;
@@ -6,6 +6,7 @@ interface UserCreationServiceDTO {
   name: string;
   nickname?: string;
   birthday: Date;
+  role: Role;
 }
 
 type UserCreationDTO = Omit<User, 'id' | 'created_at' | 'updated_at'>;

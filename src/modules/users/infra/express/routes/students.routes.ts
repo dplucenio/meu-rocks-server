@@ -5,6 +5,7 @@ import CreateStudent from '@modules/users/services/CreateStudent';
 import { parseISO, startOfDay } from 'date-fns';
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
+import { Role } from '@modules/users/entities/User';
 
 const studentRouter = Router();
 
@@ -19,12 +20,14 @@ studentRouter.get('/', async (request, response) => {
   //   .innerJoin('users', 'users', 'students.user_id = users.id')
   //   .getRawMany();
 
-  // let students = await studentRepository.query(`
-  //   SELECT users.id, name, nickname, email, birthday, enrollment_number FROM students
+  // const students = await studentRepository.query(`
+  //   SELECT users.id, students.id as badabi, name, nickname, email, birthday, enrollment_number FROM students
   //   JOIN users ON students.user_id = users.id;
   // `);
 
-  const students = await studentRepository.find({ relations: ['user'] });
+  const students: Array<ORMStudent> = await studentRepository.find({
+    relations: ['user'],
+  });
   const formattedStudents = students.map(student => ({
     id: student.user.id,
     name: student.user.name,
@@ -32,6 +35,7 @@ studentRouter.get('/', async (request, response) => {
     email: student.user.email,
     birthday: student.user.birthday,
     enrollment_number: student.enrollment_number,
+    role: student.user.role,
   }));
   return response.json(formattedStudents);
 });
@@ -61,6 +65,7 @@ studentRouter.post('/', async (request, response) => {
     nickname,
     birthday: parsedBirthday,
     enrollment_number,
+    role: Role.STUDENT,
   });
   response.json(student);
 });
