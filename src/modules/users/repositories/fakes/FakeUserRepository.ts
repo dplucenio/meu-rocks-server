@@ -12,14 +12,16 @@ class FakeUserRepository implements UserRepository {
     name,
     nickname,
     birthday,
+    role,
   }: UserCreationDTO): Promise<User> {
-    const user = {
+    const user: User = {
       id: uuid(),
       email,
       password,
       name,
       nickname,
       birthday,
+      role,
       created_at: new Date(),
       updated_at: new Date(),
     };

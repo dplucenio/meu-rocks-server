@@ -24,6 +24,8 @@ export default class CreateUser1593259252097 implements MigrationInterface {
             name VARCHAR NOT NULL UNIQUE CHECK(name <> '')
         );
 
+        CREATE TYPE role AS ENUM ('admin', 'teacher', 'student');
+
         CREATE TABLE users (
             id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
             email VARCHAR NOT NULL UNIQUE CHECK(email <> ''),
@@ -31,6 +33,7 @@ export default class CreateUser1593259252097 implements MigrationInterface {
             name VARCHAR NOT NULL CHECK(name <> ''),
             nickname VARCHAR NOT NULL CHECK(nickname <> ''),
             birthday TIMESTAMP WITH TIME ZONE NOT NULL,
+            role role NOT NULL DEFAULT 'admin',
             created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
             updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
         );
@@ -51,6 +54,7 @@ export default class CreateUser1593259252097 implements MigrationInterface {
     await queryRunner.query(`
         DROP TABLE students;
         DROP TABLE users;
+        DROP TYPE role;
         DROP TABLE classes;
         DROP TABLE subjects;
         `);

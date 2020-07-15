@@ -2,6 +2,7 @@ import AppError from '@shared/errors/AppError';
 import { isEqual, parseISO } from 'date-fns';
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 import CreateUser from './CreateUser';
+import { Role } from '../entities/User';
 
 describe('CreateUser', () => {
   it('should be possible to create a new user', async () => {
@@ -12,6 +13,7 @@ describe('CreateUser', () => {
       password: '123456',
       email: 'duque@mail.com',
       birthday: parseISO('1990-12-12'),
+      role: Role.STUDENT,
     });
     expect(user.name).toEqual('Duque');
     const userFromEmail = await userRepository.findByEmail('duque@mail.com');
@@ -28,6 +30,7 @@ describe('CreateUser', () => {
         password: '123456',
         email: 'jdoe@mail.com',
         birthday: parseISO(dateString),
+        role: Role.STUDENT,
       });
       expect(duque.name).toEqual('John Doe');
       expect(duque.email).toEqual('jdoe@mail.com');
@@ -44,6 +47,7 @@ describe('CreateUser', () => {
       password: '123456',
       email: 'jdoe@mail.com',
       birthday: parseISO('1990-12-12'),
+      role: Role.STUDENT,
     });
     expect(user.nickname).toEqual('John');
     user = await new CreateUser(userRepository).execute({
@@ -52,6 +56,7 @@ describe('CreateUser', () => {
       password: '123456',
       email: 'pmccartney@mail.com',
       birthday: parseISO('1990-12-12'),
+      role: Role.STUDENT,
     });
     expect(user.nickname).toEqual('Paul');
   });
@@ -68,6 +73,7 @@ describe('CreateUser', () => {
         password: '123456',
         email: 'jdoe@mail.com',
         birthday: parseISO('1990-12-12'),
+        role: Role.STUDENT,
       }),
     ).rejects.toThrowError(`User can't have null or empty name`);
 
@@ -78,6 +84,7 @@ describe('CreateUser', () => {
         password: '123456',
         email: 'jdoe@mail.com',
         birthday: parseISO('1990-12-12'),
+        role: Role.STUDENT,
       }),
     ).rejects.toThrowError(`User can't have null or empty name`);
   });
@@ -95,6 +102,7 @@ describe('CreateUser', () => {
         password: '123456',
         email: 'jdoe@mail.com',
         birthday,
+        role: Role.STUDENT,
       })
       .catch(error => {
         expect(error).toBeInstanceOf(AppError);
@@ -108,6 +116,7 @@ describe('CreateUser', () => {
         password: '123456',
         email: 'jdoe@mail.com',
         birthday: parseISO('john doe'),
+        role: Role.STUDENT,
       })
       .catch(error => {
         expect(error).toBeInstanceOf(AppError);
@@ -128,6 +137,7 @@ describe('CreateUser', () => {
         password,
         email: 'jdoe@mail.com',
         birthday: parseISO('1990-12-12'),
+        role: Role.STUDENT,
       })
       .catch(error => {
         expect(error).toBeInstanceOf(AppError);
@@ -141,6 +151,7 @@ describe('CreateUser', () => {
         password: '',
         email: 'jdoe@mail.com',
         birthday: parseISO('1990-12-12'),
+        role: Role.STUDENT,
       })
       .catch(error => {
         expect(error).toBeInstanceOf(AppError);
@@ -161,6 +172,7 @@ describe('CreateUser', () => {
         password: '123',
         email,
         birthday: parseISO('1990-12-12'),
+        role: Role.STUDENT,
       })
       .catch(error => {
         expect(error).toBeInstanceOf(AppError);
@@ -174,6 +186,7 @@ describe('CreateUser', () => {
         password: '123',
         email: '',
         birthday: parseISO('1990-12-12'),
+        role: Role.STUDENT,
       })
       .catch(error => {
         expect(error).toBeInstanceOf(AppError);
@@ -192,6 +205,7 @@ describe('CreateUser', () => {
       password: '123',
       email: 'jdoe@mail.com',
       birthday: parseISO('1990-12-12'),
+      role: Role.STUDENT,
     });
 
     createUserService
@@ -201,6 +215,7 @@ describe('CreateUser', () => {
         password: '123',
         email: 'jdoe@mail.com',
         birthday: parseISO('1990-12-12'),
+        role: Role.STUDENT,
       })
       .catch(error => {
         expect(error).toBeInstanceOf(AppError);

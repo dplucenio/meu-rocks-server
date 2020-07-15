@@ -1,11 +1,8 @@
 import Student from '@modules/users/entities/Student';
-import User from '@modules/users/entities/User';
 import StudentRepository from '../repositories/StudentRepository';
 import UserRepository from '../repositories/UserRepository';
 import CreateUser from './CreateUser';
-
-type Request = Omit<User, 'id' | 'created_at' | 'updated_at'> &
-  Omit<Student, 'id' | 'user' | 'user_id'>;
+import StudentCreationDTO from '../dtos/StudentDTO';
 
 class CreateStudent {
   userRepository: UserRepository;
@@ -20,7 +17,7 @@ class CreateStudent {
     this.studentRepository = studentRepository;
   }
 
-  async execute(request: Request): Promise<Student> {
+  async execute(request: StudentCreationDTO): Promise<Student> {
     const createUserService = new CreateUser(this.userRepository);
     const user = await createUserService.execute({
       name: request.name,
@@ -28,6 +25,7 @@ class CreateStudent {
       email: request.email,
       password: request.password,
       birthday: request.birthday,
+      role: request.role,
     });
     const student = await this.studentRepository.create({
       user_id: user.id,
