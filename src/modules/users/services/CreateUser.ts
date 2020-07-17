@@ -44,7 +44,7 @@ class CreateUser {
       throw new AppError(`User can't have null or empty password`, 400);
     }
     if (!request.email || request.email === '') {
-      throw new AppError(`User can't have null or empty password`, 400);
+      throw new AppError(`User can't have null or empty email`, 400);
     }
     const existingEmailUser = await this.repository.findByEmail(request.email);
     if (existingEmailUser) {

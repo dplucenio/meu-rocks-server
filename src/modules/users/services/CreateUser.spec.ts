@@ -176,7 +176,7 @@ describe('CreateUser', () => {
       })
       .catch(error => {
         expect(error).toBeInstanceOf(AppError);
-        expect(error.message).toBe(`User can't have null or empty password`);
+        expect(error.message).toBe(`User can't have null or empty email`);
       });
 
     createUserService
@@ -190,7 +190,7 @@ describe('CreateUser', () => {
       })
       .catch(error => {
         expect(error).toBeInstanceOf(AppError);
-        expect(error.message).toBe(`User can't have null or empty password`);
+        expect(error.message).toBe(`User can't have null or empty email`);
       });
   });
 
