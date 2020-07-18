@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
 import { UserCreationServiceDTO } from '../dtos/UserDTO';
-import User from '../entities/User';
+import User, { Role } from '../entities/User';
 import UserRepository from '../repositories/UserRepository';
 
 class CreateUser {
@@ -45,6 +45,9 @@ class CreateUser {
     }
     if (!request.email || request.email === '') {
       throw new AppError(`User can't have null or empty email`, 400);
+    }
+    if (!request.role || !Object.values(Role).includes(request.role)) {
+      throw new AppError(`User can't have null or invalid role`, 400);
     }
     const existingEmailUser = await this.repository.findByEmail(request.email);
     if (existingEmailUser) {

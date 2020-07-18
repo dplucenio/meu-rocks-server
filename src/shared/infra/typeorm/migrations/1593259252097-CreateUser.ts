@@ -33,7 +33,7 @@ export default class CreateUser1593259252097 implements MigrationInterface {
             name VARCHAR NOT NULL CHECK(name <> ''),
             nickname VARCHAR NOT NULL CHECK(nickname <> ''),
             birthday TIMESTAMP WITH TIME ZONE NOT NULL,
-            role role NOT NULL DEFAULT 'admin',
+            role role NOT NULL,
             created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
             updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
         );
@@ -45,8 +45,8 @@ export default class CreateUser1593259252097 implements MigrationInterface {
         );
 
         INSERT INTO
-        users(email, password, name, nickname, birthday)
-        VALUES('dplucenio@gmail.com', '${hashedAdminPassword}', 'Daniel Plucenio', 'Daniel', DATE '1985-07-21');
+        users(email, password, name, nickname, birthday, role)
+        VALUES('dplucenio@gmail.com', '${hashedAdminPassword}', 'Daniel Plucenio', 'Daniel', DATE '1985-07-21', 'admin');
         `);
   }
 
