@@ -5,8 +5,8 @@ function globalErrorHandler(
   err: Error,
   request: Request,
   response: Response,
-  _: NextFunction,
-) {
+  next: NextFunction,
+): any {
   if (err instanceof AppError) {
     return response.status(err.statusCode).json({
       status: err.statusCode,
