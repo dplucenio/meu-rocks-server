@@ -4,7 +4,7 @@ import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 import CreateUserService from './CreateUserService';
 import { Role } from '../entities/User';
 
-describe('CreateUser', () => {
+describe('CreateUserService', () => {
   it('should be possible to create a new user', async () => {
     const userRepository = new FakeUserRepository();
     const user = await new CreateUserService(userRepository).execute({
