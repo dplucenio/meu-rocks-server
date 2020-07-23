@@ -5,7 +5,7 @@ import CreateUserService from './CreateUserService';
 import StudentCreationDTO from '../dtos/StudentDTO';
 import { Role } from '../entities/User';
 
-class CreateStudent {
+class CreateStudentService {
   userRepository: UserRepository;
 
   studentRepository: StudentRepository;
@@ -36,4 +36,4 @@ class CreateStudent {
   }
 }
 
-export default CreateStudent;
+export default CreateStudentService;
