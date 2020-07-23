@@ -196,6 +196,43 @@ describe('CreateUser', () => {
       });
   });
 
+  it.only('should not be possible to create a user without a role or with a invalid one', async () => {
+    const userRepository = new FakeUserRepository();
+    const createUserService = new CreateUser(userRepository);
+    expect.assertions(4);
+
+    let role: any;
+    createUserService
+      .execute({
+        name: 'John Doe',
+        nickname: 'Doe',
+        password: '123',
+        email: 'jdoe@mail.com',
+        birthday: parseISO('1990-12-12'),
+        role,
+      })
+      .catch(error => {
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.message).toBe(`User can't have null or invalid role`);
+      });
+
+    role = 'ninja';
+    createUserService
+      .execute({
+        name: 'John Doe',
+        nickname: 'Doe',
+        password: '123',
+        email: 'jdoe@mail.com',
+        birthday: parseISO('1990-12-12'),
+        role,
+      })
+      .catch(error => {
+        console.log(`here ${error.message}`);
+        expect(error).toBeInstanceOf(AppError);
+        expect(error.message).toBe(`User can't have null or invalid role`);
+      });
+  });
+
   it('should not be possible to create a user with already existing email', async () => {
     const userRepository = new FakeUserRepository();
     const createUserService = new CreateUserService(userRepository);
