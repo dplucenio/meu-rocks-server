@@ -1,6 +1,6 @@
 import UserRepository from '@modules/users/repositories/UserRepository';
 import User from '@modules/users/entities/User';
-import { UserCreationDTO } from '@modules/users/dtos/UserDTO';
+import UserCreationDTO from '@modules/users/dtos/UserDTO';
 import { uuid } from 'uuidv4';
 
 class FakeUserRepository implements UserRepository {

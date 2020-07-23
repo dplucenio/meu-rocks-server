@@ -1,11 +1,10 @@
 import ORMStudent from '@modules/users/infra/typeorm/entities/Student';
 import ORMStudentRepository from '@modules/users/infra/typeorm/repositories/StudentRepository';
 import ORMUserRepository from '@modules/users/infra/typeorm/repositories/UserRepository';
-import CreateStudent from '@modules/users/services/CreateStudent';
+import CreateStudent from '@modules/users/services/CreateStudentService';
 import { parseISO, startOfDay } from 'date-fns';
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
-import { Role } from '@modules/users/entities/User';
 
 const studentRouter = Router();
 
@@ -65,7 +64,6 @@ studentRouter.post('/', async (request, response) => {
     nickname,
     birthday: parsedBirthday,
     enrollment_number,
-    role: Role.STUDENT,
   });
   response.json(student);
 });

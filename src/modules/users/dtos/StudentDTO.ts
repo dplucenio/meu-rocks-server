@@ -1,7 +1,7 @@
 import Student from '@modules/users/entities/Student';
-import { UserCreationDTO } from './UserDTO';
+import UserCreationDTO from './UserDTO';
 
-type StudentCreationDTO = UserCreationDTO &
+type StudentCreationDTO = Omit<UserCreationDTO, 'role'> &
   Omit<Student, 'id' | 'user' | 'user_id'>;
 
 export default StudentCreationDTO;
