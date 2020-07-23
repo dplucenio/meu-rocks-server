@@ -1,13 +1,13 @@
 import AppError from '@shared/errors/AppError';
 import { isEqual, parseISO } from 'date-fns';
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
-import CreateUser from './CreateUser';
+import CreateUserService from './CreateUserService';
 import { Role } from '../entities/User';
 
 describe('CreateUser', () => {
   it('should be possible to create a new user', async () => {
     const userRepository = new FakeUserRepository();
-    const user = await new CreateUser(userRepository).execute({
+    const user = await new CreateUserService(userRepository).execute({
       name: 'Duque',
       nickname: 'Ducks',
       password: '123456',
@@ -24,7 +24,7 @@ describe('CreateUser', () => {
     const userRepository = new FakeUserRepository();
     const dateString = '1990-12-12';
     {
-      const duque = await new CreateUser(userRepository).execute({
+      const duque = await new CreateUserService(userRepository).execute({
         name: 'John Doe',
         nickname: 'Doe',
         password: '123456',
@@ -42,15 +42,17 @@ describe('CreateUser', () => {
   it('should use first name as nickname if null or empty nickname is provided', async () => {
     const userRepository = new FakeUserRepository();
     expect.assertions(2);
-    let user = await new CreateUser(userRepository).execute({
+    let nickname: any;
+    let user = await new CreateUserService(userRepository).execute({
       name: 'John Doe',
+      nickname,
       password: '123456',
       email: 'jdoe@mail.com',
       birthday: parseISO('1990-12-12'),
       role: Role.STUDENT,
     });
     expect(user.nickname).toEqual('John');
-    user = await new CreateUser(userRepository).execute({
+    user = await new CreateUserService(userRepository).execute({
       name: 'Paul McCartney',
       nickname: '',
       password: '123456',
@@ -63,7 +65,7 @@ describe('CreateUser', () => {
 
   it('should not be possible to create a user with null or empty name', async () => {
     const userRepository = new FakeUserRepository();
-    const createUserService = new CreateUser(userRepository);
+    const createUserService = new CreateUserService(userRepository);
 
     let name: any;
     expect(
@@ -91,7 +93,7 @@ describe('CreateUser', () => {
 
   it('should raise an error with birthday has an invalid Date', () => {
     const userRepository = new FakeUserRepository();
-    const createUserService = new CreateUser(userRepository);
+    const createUserService = new CreateUserService(userRepository);
     expect.assertions(4);
 
     let birthday: any;
@@ -126,7 +128,7 @@ describe('CreateUser', () => {
 
   it('should not be possible to create a user with null or empty password', async () => {
     const userRepository = new FakeUserRepository();
-    const createUserService = new CreateUser(userRepository);
+    const createUserService = new CreateUserService(userRepository);
     expect.assertions(4);
 
     let password: any;
@@ -161,7 +163,7 @@ describe('CreateUser', () => {
 
   it('should not be possible to create a user with null or empty email', async () => {
     const userRepository = new FakeUserRepository();
-    const createUserService = new CreateUser(userRepository);
+    const createUserService = new CreateUserService(userRepository);
     expect.assertions(4);
 
     let email: any;
@@ -194,9 +196,9 @@ describe('CreateUser', () => {
       });
   });
 
-  it.only('should not be possible to create a user without a role or with a invalid one', async () => {
+  it('should not be possible to create a user without a role or with a invalid one', async () => {
     const userRepository = new FakeUserRepository();
-    const createUserService = new CreateUser(userRepository);
+    const createUserService = new CreateUserService(userRepository);
     expect.assertions(4);
 
     let role: any;
@@ -225,7 +227,6 @@ describe('CreateUser', () => {
         role,
       })
       .catch(error => {
-        console.log(`here ${error.message}`);
         expect(error).toBeInstanceOf(AppError);
         expect(error.message).toBe(`User can't have null or invalid role`);
       });
@@ -233,7 +234,7 @@ describe('CreateUser', () => {
 
   it('should not be possible to create a user with already existing email', async () => {
     const userRepository = new FakeUserRepository();
-    const createUserService = new CreateUser(userRepository);
+    const createUserService = new CreateUserService(userRepository);
     expect.assertions(2);
 
     await createUserService.execute({

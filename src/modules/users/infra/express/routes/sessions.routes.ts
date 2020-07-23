@@ -1,4 +1,4 @@
-import AuthenticateUser from '@modules/users/services/AuthenticateUser';
+import AuthenticateUser from '@modules/users/services/AuthenticateUserService';
 import { Router } from 'express';
 import ORMUserRepository from '../../typeorm/repositories/UserRepository';
 

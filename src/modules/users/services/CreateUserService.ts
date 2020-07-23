@@ -1,17 +1,18 @@
 import AppError from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
-import { UserCreationServiceDTO } from '../dtos/UserDTO';
+import UserCreationDTO from '../dtos/UserDTO';
 import User, { Role } from '../entities/User';
+
 import UserRepository from '../repositories/UserRepository';
 
-class CreateUser {
+class CreateUserService {
   private repository: UserRepository;
 
   constructor(repository: UserRepository) {
     this.repository = repository;
   }
 
-  async execute(request: UserCreationServiceDTO): Promise<User> {
+  async execute(request: UserCreationDTO): Promise<User> {
     await this.validateUserCreation(request);
     const { email, password, name, birthday, role } = request;
     let { nickname } = request;
@@ -31,9 +32,7 @@ class CreateUser {
     return user;
   }
 
-  private async validateUserCreation(
-    request: UserCreationServiceDTO,
-  ): Promise<void> {
+  private async validateUserCreation(request: UserCreationDTO): Promise<void> {
     if (!request.name || request.name === '') {
       throw new AppError(`User can't have null or empty name`, 400);
     }
@@ -56,4 +55,4 @@ class CreateUser {
   }
 }
 
-export default CreateUser;
+export default CreateUserService;
