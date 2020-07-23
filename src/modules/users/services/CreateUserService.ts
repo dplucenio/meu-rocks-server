@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
 import UserCreationDTO from '../dtos/UserDTO';
-import User from '../entities/User';
+import User, { Role } from '../entities/User';
 
 import UserRepository from '../repositories/UserRepository';
 

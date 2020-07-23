@@ -196,9 +196,9 @@ describe('CreateUser', () => {
       });
   });
 
-  it.only('should not be possible to create a user without a role or with a invalid one', async () => {
+  it('should not be possible to create a user without a role or with a invalid one', async () => {
     const userRepository = new FakeUserRepository();
-    const createUserService = new CreateUser(userRepository);
+    const createUserService = new CreateUserService(userRepository);
     expect.assertions(4);
 
     let role: any;
@@ -227,7 +227,6 @@ describe('CreateUser', () => {
         role,
       })
       .catch(error => {
-        console.log(`here ${error.message}`);
         expect(error).toBeInstanceOf(AppError);
         expect(error.message).toBe(`User can't have null or invalid role`);
       });
