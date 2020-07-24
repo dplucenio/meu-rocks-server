@@ -1,4 +1,4 @@
-import { UserCreationDTO } from '@modules/users/dtos/UserDTO';
+import UserCreationDTO from '@modules/users/dtos/UserDTO';
 import User from '../entities/User';
 
 interface UserRepository {

@@ -11,6 +11,8 @@ describe('CreateUserService', () => {
       userRepository,
       studentRepository,
     );
+
+    expect.assertions(2);
     const student = await createStudentService.execute({
       name: 'Duque',
       nickname: 'Ducks',
@@ -19,5 +21,8 @@ describe('CreateUserService', () => {
       birthday: parseISO('1990-12-12'),
       enrollment_number: 2,
     });
+
+    expect(student.user.name).toEqual('Duque');
+    expect(student.enrollment_number).toEqual(2);
   });
 });
