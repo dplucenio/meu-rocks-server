@@ -12,7 +12,7 @@ describe('CreateUserService', () => {
       studentRepository,
     );
 
-    expect.assertions(2);
+    expect.assertions(3);
     const student = await createStudentService.execute({
       name: 'Duque',
       nickname: 'Ducks',
@@ -23,6 +23,7 @@ describe('CreateUserService', () => {
     });
 
     expect(student.user.name).toEqual('Duque');
+    expect(student.user.email).toEqual('duque@mail.com');
     expect(student.enrollment_number).toEqual(2);
   });
 });
