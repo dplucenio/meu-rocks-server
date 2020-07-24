@@ -1,7 +1,7 @@
 import ORMStudent from '@modules/users/infra/typeorm/entities/Student';
-import ORMStudentRepository from '@modules/users/infra/typeorm/repositories/StudentRepository';
-import ORMUserRepository from '@modules/users/infra/typeorm/repositories/UserRepository';
-import CreateStudent from '@modules/users/services/CreateStudentService';
+import ORMStudentRepository from '@modules/users/infra/typeorm/repositories/ORMStudentRepository';
+import ORMUserRepository from '@modules/users/infra/typeorm/repositories/ORMUserRepository';
+import CreateStudentService from '@modules/users/services/CreateStudentService';
 import { parseISO, startOfDay } from 'date-fns';
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
@@ -51,7 +51,7 @@ studentRouter.post('/', async (request, response) => {
 
   const userRepository = new ORMUserRepository();
   const studentRepository = new ORMStudentRepository();
-  const createStudentService = new CreateStudent(
+  const createStudentService = new CreateStudentService(
     userRepository,
     studentRepository,
   );

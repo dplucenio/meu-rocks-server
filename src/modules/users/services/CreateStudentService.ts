@@ -2,7 +2,7 @@ import Student from '@modules/users/entities/Student';
 import StudentRepository from '../repositories/StudentRepository';
 import UserRepository from '../repositories/UserRepository';
 import CreateUserService from './CreateUserService';
-import StudentCreationDTO from '../dtos/StudentDTO';
+import CreateStudentServiceDTO from '../dtos/StudentDTO';
 import { Role } from '../entities/User';
 
 class CreateStudentService {
@@ -18,7 +18,7 @@ class CreateStudentService {
     this.studentRepository = studentRepository;
   }
 
-  async execute(request: StudentCreationDTO): Promise<Student> {
+  async execute(request: CreateStudentServiceDTO): Promise<Student> {
     const createUserService = new CreateUserService(this.userRepository);
     const user = await createUserService.execute({
       name: request.name,
@@ -29,7 +29,7 @@ class CreateStudentService {
       role: Role.STUDENT,
     });
     const student = await this.studentRepository.create({
-      user_id: user.id,
+      user,
       enrollment_number: request.enrollment_number,
     });
     return student;

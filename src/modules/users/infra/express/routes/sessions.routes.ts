@@ -1,6 +1,6 @@
 import AuthenticateUser from '@modules/users/services/AuthenticateUserService';
 import { Router } from 'express';
-import ORMUserRepository from '../../typeorm/repositories/UserRepository';
+import ORMUserRepository from '../../typeorm/repositories/ORMUserRepository';
 
 const sessionsRouter = Router();
 
