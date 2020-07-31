@@ -1,4 +1,5 @@
 import Student from '@modules/users/entities/Student';
+import AppError from '@shared/errors/AppError';
 import StudentRepository from '../repositories/StudentRepository';
 import UserRepository from '../repositories/UserRepository';
 import CreateUserService from './CreateUserService';
@@ -19,6 +20,16 @@ class CreateStudentService {
   }
 
   async execute(request: CreateStudentServiceDTO): Promise<Student> {
+    // TODO: validate undefined enrollment number
+
+    const existingStudent = await this.studentRepository.findByEnrollmentNumber(
+      request.enrollment_number,
+    );
+
+    if (existingStudent) {
+      throw new AppError('enrollment number already exists');
+    }
+
     const createUserService = new CreateUserService(this.userRepository);
     const user = await createUserService.execute({
       name: request.name,

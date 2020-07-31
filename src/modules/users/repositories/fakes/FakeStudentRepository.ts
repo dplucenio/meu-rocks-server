@@ -13,7 +13,16 @@ class FakeStudentRepository implements StudentRepository {
       user: data.user,
       user_id: data.user.id,
     };
+    this.students = [...this.students, student];
     return student;
+  }
+
+  async findByEnrollmentNumber(
+    enrollmentNumber: number,
+  ): Promise<Student | undefined> {
+    return this.students.find(student => {
+      return student.enrollment_number === enrollmentNumber;
+    });
   }
 }
 

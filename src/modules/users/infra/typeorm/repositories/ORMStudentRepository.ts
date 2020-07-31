@@ -23,5 +23,14 @@ class ORMStudentRepository implements StudentRepository {
     await this.studentRepository.save(student);
     return student;
   }
+
+  async findByEnrollmentNumber(
+    enrollmentNumber: number,
+  ): Promise<Student | undefined> {
+    const student = await this.studentRepository.findOne({
+      where: { enrollment_number: enrollmentNumber },
+    });
+    return student;
+  }
 }
 export default ORMStudentRepository;
