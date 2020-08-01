@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx ts-node-dev -r tsconfig-paths/register --no-notify ./src/shared/infra/express/server.ts",
-    "test": "jest",
+    "start": "ts-node-dev -r tsconfig-paths/register --no-notify ./src/shared/infra/express/server.ts",
+    "test": "jest --runInBand",
+    "test:watch": "jest --runInBand --watch",
+    "test:clearCache": "jest --clearCache",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "keywords": [],

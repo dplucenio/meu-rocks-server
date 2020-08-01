@@ -8,6 +8,10 @@ interface Request {
   password: string;
 }
 
+interface Response {
+  token: string;
+}
+
 class AuthenticateUser {
   userRepository: UserRepository;
 
@@ -15,10 +19,7 @@ class AuthenticateUser {
     this.userRepository = userRepository;
   }
 
-  public async execute({
-    email,
-    password,
-  }: Request): Promise<{ token: string }> {
+  public async execute({ email, password }: Request): Promise<Response> {
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
       throw new AppError('Incorrect email/password combination');

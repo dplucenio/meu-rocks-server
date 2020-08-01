@@ -7,5 +7,14 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: "node",
   testMatch: ["**/*.spec.ts"],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {prefix: '<rootDir>/src/'})
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {prefix: '<rootDir>/src/'}),
+  globals: {
+    'ts-jest': {
+      isolatedModules: true
+    }
+  },
+  testEnvironment: 'node',
+  transformIgnorePatterns: [
+    "/node_modules/"
+  ],
 };

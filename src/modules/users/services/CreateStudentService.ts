@@ -39,6 +39,7 @@ class CreateStudentService {
       birthday: request.birthday,
       role: Role.STUDENT,
     });
+
     const student = await this.studentRepository.create({
       user,
       enrollment_number: request.enrollment_number,
